@@ -43,24 +43,26 @@ lm.fit(X_train, y_train)
 np.mean(cross_val_score(lm,X_train,y_train, scoring = 'neg_mean_absolute_error', cv= 3))
 
 # lasso regression 
-lm_l = Lasso(alpha=0.13, max_iter=100000)  # 'saga' is a good solver for large datasets
-lm_l.fit(X_train,y_train)
-np.mean(cross_val_score(lm_l,X_train,y_train, scoring = 'neg_mean_absolute_error', cv= 3))
+lm_l = Lasso(alpha=0.13, max_iter=100000, warm_start=True)  # Using warm_start=True
+lm_l.fit(X_train, y_train)
+np.mean(cross_val_score(lm_l, X_train, y_train, scoring='neg_mean_absolute_error', cv=3))
 
 alpha = []
 error = []
 
-for i in range(1,100):
-    alpha.append(i/100)
-    lml = Lasso(alpha=(i/100))
-    error.append(np.mean(cross_val_score(lml,X_train,y_train, scoring = 'neg_mean_absolute_error', cv= 3)))
-    
-plt.plot(alpha,error)
+for i in range(1, 100):
+    alpha_val = i / 100
+    alpha.append(alpha_val)
+    lml = Lasso(alpha=alpha_val, max_iter=100000, warm_start=True)  # Using warm_start=True
+    error.append(np.mean(cross_val_score(lml, X_train, y_train, scoring='neg_mean_absolute_error', cv=3)))
 
-err = tuple(zip(alpha,error))
-df_err = pd.DataFrame(err, columns = ['alpha','error'])
-df_err[df_err.error == max(df_err.error)]
+plt.plot(alpha, error)
 
+err = tuple(zip(alpha, error))
+df_err = pd.DataFrame(err, columns=['alpha', 'error'])
+best_alpha = df_err.loc[df_err['error'].idxmax()]['alpha']
+
+print("Best alpha:", best_alpha)
 # random forest 
 from sklearn.ensemble import RandomForestRegressor
 rf = RandomForestRegressor()
@@ -90,6 +92,7 @@ mean_absolute_error(y_test,tpred_rf)
 mean_absolute_error(y_test,(tpred_lm+tpred_rf)/2)
 
 import pickle
+import warnings
 pickl = {'model': gs.best_estimator_}
 pickle.dump( pickl, open( 'model_file' + ".p", "wb" ) )
 
@@ -98,6 +101,21 @@ with open(file_name, 'rb') as pickled:
     data = pickle.load(pickled)
     model = data['model']
 
-model.predict(np.array(list(X_test.iloc[1,:])).reshape(1,-1))[0]
-
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore")
+    
+model.predict(X_test.iloc[1,:].values.reshape(1,-1))
 list(X_test.iloc[1,:])
+
+
+
+
+
+
+
+
+
+
+
+
+
