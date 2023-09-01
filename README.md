@@ -4,21 +4,21 @@
 ..* Engineered features from the text of each job description to quantify the value companies put on python, excel, aws, and spark.
 ..* Optimized Linear, Lasso, and Random Forest Regressors using GridsearchCV to reach the best model.
 ## Built a client facing API using flask
-### Code and Resources Used
-### Python Version: 3.11
-### Packages: pandas, numpy, sklearn, matplotlib, seaborn, selenium, flask, json, pickle
-### For Web Framework Requirements: pip install -r requirements.txt
-### Scraper Github: https://github.com/arapfaik/scraping-glassdoor-selenium
-### Scraper Article: https://towardsdatascience.com/selenium-tutorial-scraping-glassdoor-com-in-10-minutes-3d0915c6d905
-### Flask Productionization: https://towardsdatascience.com/productionize-a-machine-learning-model-with-flask-and-heroku-8201260503d2
+##### Code and Resources Used
+##### Python Version: 3.11
+##### Packages: pandas, numpy, sklearn, matplotlib, seaborn, selenium, flask, json, pickle
+##### For Web Framework Requirements: pip install -r requirements.txt
+##### Scraper Github: https://github.com/arapfaik/scraping-glassdoor-selenium
+##### Scraper Article: https://towardsdatascience.com/selenium-tutorial-scraping-glassdoor-com-in-10-minutes-3d0915c6d905
+##### Flask Productionization: https://towardsdatascience.com/productionize-a-machine-learning-model-with-flask-and-heroku-8201260503d2
 
 ## YouTube Project Walk-Through
 https://www.youtube.com/playlist?list=PL2zq7klxX5ASFejJj80ob9ZAnBHdz5O1t
 
-##Web Scraping
+## Web Scraping
 Tweaked the web scraper github repo (above) to scrape 1000 job postings from glassdoor.com. With each job, we got the following:
 
-##Job title
+## Job title
 Salary Estimate
 Job Description
 Rating
@@ -30,7 +30,8 @@ Type of Ownership
 Industry
 Sector
 Revenue
-##Data Cleaning
+
+## Data Cleaning
 After scraping the data, I needed to clean it up so that it was usable for our model. I made the following changes and created the following variables:
 
 Parsed numeric data out of salary
@@ -53,7 +54,7 @@ I looked at the distributions of the data and the value counts for the various c
 
 alt text alt text alt text
 
-##Model Building
+## Model Building
 First, I transformed the categorical variables into dummy variables. I also split the data into train and tests sets with a test size of 20%.
 
 I tried three different models and evaluated them using Mean Absolute Error. I chose MAE because it is relatively easy to interpret and outliers aren’t particularly bad in for this type of model.
@@ -69,5 +70,5 @@ The Random Forest model far outperformed the other approaches on the test and va
 Random Forest : MAE = 11.22
 Linear Regression: MAE = 18.86
 Ridge Regression: MAE = 19.67
-##Productionization
+## Productionization
 In this step, I built a flask API endpoint that was hosted on a local webserver by following along with the TDS tutorial in the reference section above. The API endpoint takes in a request with a list of values from a job listing and returns an estimated salary.
