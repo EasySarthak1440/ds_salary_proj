@@ -42,14 +42,15 @@ Made a new column for company state
 Added a column for if the job was at the company’s headquarters
 Transformed founded date into age of company
 Made columns for if different skills were listed in the job description:
-Python
-R
-Excel
-AWS
-Spark
++ Python
++ R
++ Excel
++ AWS
++ Spark
 Column for simplified job title and Seniority
 Column for description length
-EDA
+
+## EDA
 I looked at the distributions of the data and the value counts for the various categorical variables. Below are a few highlights from the pivot tables.
 
 alt text alt text alt text
